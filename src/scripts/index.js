@@ -141,4 +141,3 @@ window.create = function () {
 
     return element;
 }
-
