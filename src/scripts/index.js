@@ -21,7 +21,11 @@ let createNewTask = (parent, task)=>{
     singletaskP.innerHTML = task
     singletask.appendChild(singletaskP)
 
-    let span = create('span', {'class': 'ml-auto'})
+    let editbtn = createeditBtn(singletask ,singletaskP)
+    singletaskP.appendChild(editbtn)
+
+    let taskController = CreateTaskController(singletask)
+    let span = create('span', {'class': 'px-2'})
     span.style.color = 'white'
     span.style.cursor = 'pointer'
     span.innerHTML = '<i class="fas fa-window-close"></i>'
@@ -31,8 +35,77 @@ let createNewTask = (parent, task)=>{
     singletaskP.appendChild(span)
 
     
+    taskController.style.visibility ="hidden"
+    singletask.appendChild(taskController)
+
+    singletask.onmouseenter = ()=>{
+        taskController.style.visibility ="visible"
+    }
+    singletask.onmouseleave = ()=>{
+        taskController.style.visibility ="hidden"
+    }
+
+    
     col.appendChild(singletask)
     parent.appendChild(col)
+}
+
+function CreateTaskController(parent){
+    let controlpanel = create({"class":"task-control-panel"})
+    let colorplate = createColorPlate(parent)
+    controlpanel.appendChild(colorplate)
+    return controlpanel;
+}
+
+
+function createeditBtn(parnt,singp){
+    let span = create('span', {'class': 'ml-auto'})
+    span.style.color = 'white'
+    span.style.cursor = 'pointer'
+    span.innerHTML = '<i class="fas fa-edit"></i>'
+
+    span.addEventListener('click',()=>{
+        let p = parnt.querySelector('p')
+        let textArea  = create('textarea', {'class':'inner-textarea'})
+        textArea.style.width = parnt.offsetWidth +'px'
+        textArea.style.height = parnt.offsetHeight +'px'
+        textArea.innerHTML = p.innerHTML.replace('<span class="ml-auto" style="color: white; cursor: pointer;"><i class="fas fa-edit"></i></span><span class="px-2" style="color: white; cursor: pointer;"><i class="fas fa-window-close"></i></span>','')
+
+        textArea.addEventListener('keypress',(event)=>{
+            if(event.keyCode === 13){
+                event.stopPropagation()
+                let value = event.target.value
+                console.log(value);
+                if(value){
+                    p.innerHTML = value+'<span class="ml-auto" style="color: white; cursor: pointer;"><i class="fas fa-edit"></i></span><span class="px-2" style="color: white; cursor: pointer;"><i class="fas fa-window-close"></i></span>'
+                    parnt.removeChild(event.target)
+                }else{
+                    alert('please put some data')
+                }
+            }
+        })
+
+        parnt.appendChild(textArea)
+    })
+    return span
+    
+}
+
+
+function createColorPlate(parent){
+    let colors = ['forestgreen','fuchsia','gainsboro','ghostwhite','gold','goldenrod','gray']
+    let colorDiv = create({'class':'d-flex'})
+
+    colors.forEach(color=>{
+        let div  = create({'class':'color-circle'})
+        div.style.background = color
+        div.addEventListener('click',()=>{
+            parent.style.background = color
+        })
+        colorDiv.appendChild(div)
+    })
+
+    return colorDiv;
 }
 
 
