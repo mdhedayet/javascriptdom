@@ -13,7 +13,8 @@ window.onload = ()=>{
     })
 
     addtask.addEventListener('click',()=>{
-            createNewTask(tasklist, tasklist.value)
+
+            createNewTask(tasklist, taskfield.value)
             taskfield.value = ""
     })
 
