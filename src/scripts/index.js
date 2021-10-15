@@ -11,6 +11,12 @@ window.onload = ()=>{
             event.target.value = ""
         }
     })
+
+    addtask.addEventListener('click',()=>{
+            createNewTask(tasklist, tasklist.value)
+            taskfield.value = ""
+    })
+
 }
 
 let createNewTask = (parent, task)=>{
