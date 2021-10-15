@@ -6,16 +6,21 @@ window.onload = ()=>{
     const tasklist = document.querySelector('#tasklist')
 
     taskfield.addEventListener('keypress',(event)=>{
-        if(event.keyCode === 13){
+        if(event.keyCode === 13 && event.target.value != ''){
             createNewTask(tasklist, event.target.value)
             event.target.value = ""
+        }else if(event.keyCode === 13){
+            alert('Pease enter some value !!!')
         }
     })
 
     addtask.addEventListener('click',()=>{
-
+            if(taskfield.value != ''){
             createNewTask(tasklist, taskfield.value)
             taskfield.value = ""
+            }else{
+                alert('Pease enter some value!!')
+            }
     })
 
 }
